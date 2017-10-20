@@ -10,8 +10,9 @@ define("app",
         "modules/core/parametricURL",
         "modules/core/crs",
         "modules/core/autostarter",
-        "modules/alerting/view"
-    ], function ($, Config, Util, RawLayerList, RestReaderList, Preparser, Map, ParametricURL, CRS, Autostarter, Alerting) {
+        "modules/alerting/view",
+        "proj4"
+    ], function ($, Config, Util, RawLayerList, RestReaderList, Preparser, Map, ParametricURL, CRS, Autostarter, Alerting, proj4) {
 
         // Core laden
         // new Autostarter();
@@ -33,8 +34,17 @@ define("app",
 
             require(["modules/controls/orientation/view"], function (Orientation) {
                 var or = new Orientation({ el: row });
+                var initialLoad = true;
 
                 or.getOrientation();
+                Radio.on("geolocation", "position", function (position) {
+                    console.log(position);
+                    if (initialLoad) {
+                        var centerPosition = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), position);
+                        Radio.trigger("MapView", "setCenter", centerPosition, 6);
+                        initialLoad = false;
+                    }
+                });
             });
         });
 

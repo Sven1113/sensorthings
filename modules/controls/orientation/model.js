@@ -118,6 +118,11 @@ define([
                 zoomMode = this.get("zoomMode"),
                 centerPosition = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), position);
 
+            // broadcast the current position
+            if (centerPosition !== this.get('position')) {
+                Radio.trigger("geolocation", "position", position);
+            }
+
             // speichere Position
             this.set("position", centerPosition);
 
@@ -125,7 +130,6 @@ define([
             if (zoomMode === "once") {
                 if (firstGeolocation === true) {
                     this.positionMarker(centerPosition);
-                    this.zoomAndCenter(centerPosition);
                     this.set("firstGeolocation", false);
                 }
                 else {
@@ -134,7 +138,6 @@ define([
             }
             else {
                 this.positionMarker(centerPosition);
-                this.zoomAndCenter(centerPosition);
             }
         },
         onError: function () {
