@@ -168,7 +168,7 @@
             "719",
             "720"
           ],
-          "visibility":true,
+          "visibility":false,
           "name":"Geobasiskarten (farbig)"
         },
         {
@@ -193,7 +193,8 @@
           "name":"Stadtplan (schwarz-weiß)"
         },
         {
-          "id":"453"
+          "id":"453",
+          "visibility":true
         }
       ]
     },
@@ -317,7 +318,9 @@
           "Titel": "Mobilitätsinformationen",
           "Layer": [
             {
-                "id": "937"
+              "id": "46",
+              "styleId": "46",
+              "styleField": "ladesaeule_status"
             }
           ]
         }

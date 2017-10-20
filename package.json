@@ -49,7 +49,7 @@
     "mocha": "3.5.0",
     "chai": "4.1.1",
     "build-config": "git+https://bitbucket.org/lgv-g12/build-config.git",
-    "lgv-config": "git+https://bitbucket.org/lgv-g12/lgv-config.git"
+    "lgv-config": "git+https://bitbucket.org/lgv-g12/lgv-config-public.git"
   },
   "title": "LGV Master"
 }
