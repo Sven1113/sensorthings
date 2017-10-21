@@ -52,13 +52,19 @@ define(function (require) {
             modal.addClass("hidden");
             modal.children().remove();
           }
+
           console.log("clicked" + thing["@iot.id"]);
         };
         var xy = thing.Locations[0].location.geometry.coordinates;
         var pos = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), xy);
+
+        var positioning = "center-left";
+        if (thing.Datastreams[0].name.startsWith("Plug 01")) {
+            positioning = "center-right";
+        }
         var overlay = map.addOverlay(new ol.Overlay({
           position: pos,
-          positioning: 'center-center',
+          positioning: positioning,
           element: x
         }));
         newOverlays.push(overlay);
