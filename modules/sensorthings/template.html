@@ -1,0 +1,10 @@
+<div class="form-group">
+  <h1>Status zu meinen Favoriten:</h1>
+  <ul>
+    <% _(model['favorites']).each(function(fav) { %>
+      <li>
+        <%= fav %>
+      </li>
+    <% }) %>
+  </ul>
+</div>

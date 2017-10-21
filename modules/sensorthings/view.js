@@ -1,39 +1,30 @@
 define(function (require) {
 
-  var Model = require("modules/sensorthings/model");//,
-  // Template = require("text!modules/tools/addPointsFromFile/template.html"),
-  // AddPointsFromFileView;
+  var Model = require("modules/sensorthings/model");
+  var Template = require("text!modules/sensorthings/template.html");
 
   SensorThings = Backbone.View.extend({
     model: new Model(),
-    className: "blah",
+    template: _.template(Template),
+    className: "sensorthings",
     initialize: function () {
+      this.listenTo(this.model, {
+        "change:favorites": this.favoritesChanged,
+      }, this);
       this.render();
     },
     render: function () {
-      console.log('hello world');
+      this.$el.html(this.template({ model: this.model }));
+      $(".lgv-container").append(this.$el);
+    },
+    reRender: function () {
+      this.$el.replaceWith(this.template({ model: this.model }));
+    },
+    favoritesChanged: function () {
+      console.log('favorites changed');
+      this.reRender();
     }
   });
 
-  // AddPointsFromFileView = Backbone.View.extend({
-  //     model: new Model(),
-  //     template: _.template(Template),
-  //     className: "add-points-from-file",
-  //     events: {
-  //         "click .einlesen" : "readFile"
-  //     },
-  //     initialize: function () {
-  //         this.render();
-  //     },
-  //     render: function () {
-  //         var attr = this.model.toJSON();
-
-  //         this.$el.html(this.template(attr));
-  //         $(".lgv-container").append(this.$el);
-  //     },
-  //     readFile: function (evt) {
-  //         this.model.readFile(evt);
-  //     }
-  // });
   return SensorThings;
 });
