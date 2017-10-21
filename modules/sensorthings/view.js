@@ -41,22 +41,20 @@ define(function (require) {
         var os = thing.Datastreams[0].Observations;
         x.setAttribute("class", "marker " + os[os.length - 1].result);
         x.setAttribute("id", "m" + thing.Datastreams[0]["@iot.id"]);
-          x.onclick = function () {
-              var modal = document.getElementById("modal");
-              if(modal.getAttribute("style") === "") {
-                  modal.setAttribute("style","display: none");
-                  while (modal.firstChild) {
-                      modal.removeChild(modal.firstChild);
-                  }
-              } else {
-                  var text = document.createElement("div");
-                  text.textContent = thing.properties["location_name"];
-                  modal.appendChild(text);
-                  modal.setAttribute("style", "");
-              }
-              console.log("clicked" + thing["@iot.id"]);
-          };
-          var xy = thing.Locations[0].location.geometry.coordinates;
+        x.onclick = function () {
+          var modal = $("#modal");
+          if (modal.hasClass("hidden")) {
+            var text = document.createElement("h1");
+            text.textContent = thing.properties["location_name"];
+            modal.append(text);
+            modal.removeClass("hidden");
+          } else {
+            modal.addClass("hidden");
+            modal.children().remove();
+          }
+          console.log("clicked" + thing["@iot.id"]);
+        };
+        var xy = thing.Locations[0].location.geometry.coordinates;
         var pos = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), xy);
         var overlay = map.addOverlay(new ol.Overlay({
           position: pos,

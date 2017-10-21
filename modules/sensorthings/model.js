@@ -43,7 +43,8 @@ define(function (require) {
       }
 
       var things = this.get('things');
-      var dataStreamId = obs['@iot.id'];
+      var k = Object.keys(obs);
+      var dataStreamId = k[0];
       console.log(dataStreamId);
       console.log(things);
       var idx = _.findIndex(things, function (t) {
@@ -53,7 +54,7 @@ define(function (require) {
         var changedThing = things[idx];
         console.log(changedThing);
         var oldObservations = changedThing.Datastreams[0].Observations;
-        oldObservations.push(obs);
+        oldObservations.push(obs[dataStreamId]);
         var newThings = things.slice(idx, 1);
         newThings.push(changedThing);
         console.log(things);
