@@ -33,7 +33,7 @@ define("app",
             var row = Ctl.addRow("orientation");
 
             require(["modules/controls/orientation/view"], function (Orientation) {
-                var or = new Orientation({el: row});
+                var or = new Orientation({ el: row });
                 var initialLoad = true;
                 or.getOrientation();
                 Radio.on("geolocation", "position", function (position) {
@@ -47,6 +47,7 @@ define("app",
                             {
                                 success: function (data) {
                                     Radio.trigger("sensorthings", "addData", data.value);
+                                    Radio.trigger("sensorthings", "notify", {});
                                 },
                                 xhrFields: {
                                     withCredentials: false

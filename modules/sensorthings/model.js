@@ -11,7 +11,8 @@ define(function (require) {
       channel.on({
         "toggleFavorite": this.toggleFavorite,
         "addData": this.setInitialData,
-        "newObservation": this.handleObservation
+        "newObservation": this.handleObservation,
+        "notify": this.mkNotification
       }, this);
 
       var loc = "ws://10.80.5.9:8766";
@@ -31,7 +32,6 @@ define(function (require) {
     },
     setInitialData: function (data) {
       this.set('things', data);
-      console.log(data);
     },
     handleObservation: function (observation) {
       var obs = JSON.parse(observation);
@@ -65,6 +65,28 @@ define(function (require) {
       } else {
         favs.push(thing);
         this.set('favorites', favs);
+      }
+    },
+    mkNotification: function () {
+      var nText = "Ladestation frei";
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+      }
+
+      // Let's check whether notification permissions have already been granted
+      else if (Notification.permission === "granted") {
+        // If it's okay let's create a notification
+        var notification = new Notification(nText);
+      }
+
+      // Otherwise, we need to ask the user for permission
+      else if (Notification.permission !== "denied") {
+        Notification.requestPermission(function (permission) {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+            var notification = new Notification(nText);
+          }
+        });
       }
     }
   });
