@@ -44,9 +44,22 @@ define(function (require) {
         x.onclick = function () {
           var modal = $("#modal");
           if (modal.hasClass("hidden")) {
-            var text = document.createElement("h1");
-            text.textContent = thing.properties["location_name"];
-            modal.append(text);
+            var title = document.createElement("h1");
+            title.textContent = thing.properties["location_name"];
+            modal.append(title);
+            var list = document.createElement("ul");
+
+            var plug = document.createElement("li");
+            plug.textContent = "Steckerart: " + thing.properties["plug"];
+            list.append(plug);
+            var conn = document.createElement("li");
+            conn.textContent = "Steckertyp: " + thing.properties["connector_type"];
+            list.append(conn);
+            var loca = document.createElement("li");
+            loca.textContent = "Ort: " + thing.properties["location_typ"];
+            list.append(loca);
+
+            modal.append(list);
             modal.removeClass("hidden");
           } else {
             modal.addClass("hidden");
