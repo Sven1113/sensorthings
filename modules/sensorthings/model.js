@@ -36,6 +36,13 @@ define(function (require) {
     },
     handleObservation: function (observation) {
       var things = this.get('things');
+      var thingId = observation['@iot.id'];
+      var idx = _.findIndex(things, function (t) {
+        return t['@iot.id'] === thingId;
+      });
+      var changedThing = things[idx];
+      var newThings = things.slice(idx, 1);
+      // newThings.push(idx)
       console.log(things);
       console.log(observation);
     },
