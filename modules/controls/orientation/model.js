@@ -118,8 +118,9 @@ define([
                 zoomMode = this.get("zoomMode"),
                 centerPosition = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), position);
 
-            // broadcast the current position
-            if (centerPosition !== this.get('position')) {
+            // broadcast the current position if it changed
+            var prevPos = this.get('position');
+            if (centerPosition[0] !== prevPos[0] && centerPosition[1] !== prevPos[1]) {
                 Radio.trigger("geolocation", "position", position);
             }
 
