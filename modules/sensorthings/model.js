@@ -14,13 +14,12 @@ define(function (require) {
         "newObservation": this.handleObservation
       }, this);
 
-      var loc = "ws://10.80.5.9:8765";
+      var loc = "ws://10.80.5.9:8766";
       var socket = new WebSocket(loc);
       socket.onopen = function () {
         console.log('websocket says hi!');
       }
       socket.onmessage = function (evt) {
-        console.log(evt.data);
         Radio.trigger("sensorthings", "newObservation", event.data);
       }
       socket.onerror = function (error) {
@@ -35,16 +34,24 @@ define(function (require) {
       console.log(data);
     },
     handleObservation: function (observation) {
+      var obs = JSON.parse(observation);
       var things = this.get('things');
-      var thingId = observation['@iot.id'];
+      var thingId = obs['@iot.id'];
       var idx = _.findIndex(things, function (t) {
         return t['@iot.id'] === thingId;
       });
-      var changedThing = things[idx];
-      var newThings = things.slice(idx, 1);
-      // newThings.push(idx)
-      console.log(things);
-      console.log(observation);
+      if (idx >= 0) {
+        var changedThing = things[idx];
+        var oldObservations = changedThing.Datastreams[0].Observations;
+        oldObservations.push(obs);
+        var newThings = things.slice(idx, 1);
+        newThings.push(changedThing);
+        console.log(things);
+        console.log(newThings);
+        this.set('things', newThings);
+      } else {
+        console.log(obs);
+      }
     },
     toggleFavorite: function (thing) {
       var favs = this.get('favorites');
