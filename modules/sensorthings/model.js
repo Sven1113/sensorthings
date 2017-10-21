@@ -13,6 +13,22 @@ define(function (require) {
         "addData": this.setInitialData,
         "newObservation": this.handleObservation
       }, this);
+
+      var loc = "ws://10.80.5.9:8765";
+      var socket = new WebSocket(loc);
+      socket.onopen = function () {
+        console.log('websocket says hi!');
+      }
+      socket.onmessage = function (evt) {
+        console.log(evt.data);
+        Radio.trigger("sensorthings", "newObservation", event.data);
+      }
+      socket.onerror = function (error) {
+        console.log(error);
+      }
+      socket.onclose = function () {
+        console.log('websocket says bye!');
+      }
     },
     setInitialData: function (data) {
       this.set('things', data);

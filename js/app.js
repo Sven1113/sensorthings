@@ -29,18 +29,12 @@ define("app",
 
         require(["modules/controls/view"], function (Controls) {
             var Ctl = new Controls();
-            // var client = mqtt.connect('mqtt://51.5.242.162');
-
-            // client.on('connect', function () {
-            //       client.subscribe('v1.0/Datastreams(54)/Observations');
-            // })
 
             var row = Ctl.addRow("orientation");
 
             require(["modules/controls/orientation/view"], function (Orientation) {
                 var or = new Orientation({el: row});
                 var initialLoad = true;
-
                 or.getOrientation();
                 Radio.on("geolocation", "position", function (position) {
                     if (initialLoad) {
