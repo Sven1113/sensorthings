@@ -38,7 +38,9 @@ define(function (require) {
       newOverlays = overlays.slice();
       _.forEach(things, function (thing) {
         var x = document.createElement("div");
-        x.setAttribute("class", "marker");
+        var os = thing.Datastreams[0].Observations;
+        x.setAttribute("class", "marker " + os[os.length - 1].result);
+        x.setAttribute("id", "m" + thing["@iot.id"]);
         var xy = thing.Locations[0].location.geometry.coordinates;
         var pos = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), xy);
         var overlay = map.addOverlay(new ol.Overlay({

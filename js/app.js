@@ -46,7 +46,7 @@ define("app",
                     if (initialLoad) {
                         var centerPosition = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), position);
                         $.ajax("https://51.5.242.162/itsLGVhackathon/v1.0/Things?" +
-                            "$expand=Locations,Datastreams&" +
+                            "$expand=Locations,Datastreams/Observations&" +
                             "$top=100&" +
                             "$filter=geo.distance(Locations/location, geography'POINT ("
                             + position[0] + " " + position[1] + ")') lt 0.018",
