@@ -41,6 +41,50 @@ define("app",
                     console.log(position);
                     if (initialLoad) {
                         var centerPosition = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), position);
+                        $.ajax("https://51.5.242.162/itsLGVhackathon/v1.0/Things?$expand=Locations&$filter=geo.distance(Locations/location, geography'POINT ("
+                            + position[0] + " " + position[1] + ")') lt 0.018",
+                            {
+                                success: function (data) {
+                                    var map = Radio.request("Map", "getMap");
+                                    _.forEach(data.value, function (thing) {
+                                        var x = document.createElement("div");
+                                        x.setAttribute("class", "marker");
+                                        var xy = thing.Locations[0].location.geometry.coordinates;
+                                        var pos = proj4(proj4("EPSG:4326"), proj4(Config.view.epsg), xy);
+                                        map.addOverlay(new ol.Overlay({
+                                            position: pos,
+                                            positioning: 'center-center',
+                                            element: x
+                                        }));
+
+
+                                        // Vienna marker
+                                        // var marker = new ol.Overlay({
+                                        //     position: pos,
+                                        //     positioning: 'center-center',
+                                        //     element: document.getElementById('marker'),
+                                        //     stopEvent: false
+                                        // });
+                                        // map.addOverlay(marker);
+                                        //
+                                        // // Vienna label
+                                        // var vienna = new ol.Overlay({
+                                        //     position: pos,
+                                        //     positioning: 'center-center',
+                                        //     element: document.getElementById('vienna')
+                                        // });
+                                        // map.addOverlay(vienna);
+
+
+                                    });
+                                    console.log(data);
+                                },
+                                xhrFields: {
+                                    withCredentials: false
+                                }
+                            }
+                        );
+
                         Radio.trigger("MapView", "setCenter", centerPosition, 6);
                         initialLoad = false;
                     }
