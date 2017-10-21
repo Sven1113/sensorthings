@@ -21,7 +21,6 @@ define(function (require) {
         console.log('websocket says hi!');
       }
       socket.onmessage = function (evt) {
-        console.log(evt.data);
         Radio.trigger("sensorthings", "newObservation", event.data);
       }
       socket.onerror = function (error) {
@@ -37,30 +36,32 @@ define(function (require) {
     handleObservation: function (observation) {
       var obs = JSON.parse(observation);
 
-      // TODO: hardcode demo datastream id
-      if (obs['@iot.id'] === '') {
-        this.mkNotification();
-      }
-
-      var things = this.get('things');
+      // // TODO: hardcode demo datastream id
+      // if (obs['@iot.id'] === '') {
+      //   this.mkNotification();
+      // }
+      //
+      // var things = this.get('things');
       var k = Object.keys(obs);
       var dataStreamId = k[0];
-      console.log(dataStreamId);
-      console.log(things);
-      var idx = _.findIndex(things, function (t) {
-        return t.Datastreams[0]['@iot.id'] === dataStreamId;
-      });
-      if (idx >= 0) {
-        var changedThing = things[idx];
-        console.log(changedThing);
-        var oldObservations = changedThing.Datastreams[0].Observations;
-        oldObservations.push(obs[dataStreamId]);
-        var newThings = things.slice(idx, 1);
-        newThings.push(changedThing);
-        console.log(things);
-        console.log(newThings);
-        this.set('things', newThings);
-      }
+      console.log($("#m" + dataStreamId).attr("class", "marker " + obs[dataStreamId].result));
+      console.log(obs[dataStreamId].result);
+
+      // console.log(dataStreamId);
+      // var idx = _.findIndex(things, function (t) {
+      //   return ("" + t.Datastreams[0]['@iot.id']) === dataStreamId;
+      // });
+      // if (idx >= 0) {
+      //   var changedThing = things[idx];
+      //   console.log(changedThing);
+      //   var oldObservations = changedThing.Datastreams[0].Observations;
+      //   oldObservations.push(obs[dataStreamId]);
+      //   var newThings = things.slice(idx, 1);
+      //   newThings.push(changedThing);
+      //   console.log(things);
+      //   console.log(newThings);
+      //   this.set('things', newThings);
+      // }
     },
     toggleFavorite: function (thing) {
       var favs = this.get('favorites');
