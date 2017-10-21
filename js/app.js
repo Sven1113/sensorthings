@@ -11,9 +11,8 @@ define("app",
         "modules/core/crs",
         "modules/core/autostarter",
         "modules/alerting/view",
-        "proj4",
-        "mqtt"
-    ], function ($, Config, Util, RawLayerList, RestReaderList, Preparser, Map, ParametricURL, CRS, Autostarter, Alerting, proj4, mqtt) {
+        "proj4"
+    ], function ($, Config, Util, RawLayerList, RestReaderList, Preparser, Map, ParametricURL, CRS, Autostarter, Alerting, proj4) {
 
         // Core laden
         // new Autostarter();
