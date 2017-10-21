@@ -46,6 +46,7 @@ define("app",
                             + position[0] + " " + position[1] + ")') lt 0.018",
                             {
                                 success: function (data) {
+                                    console.log(data);
                                     Radio.trigger("sensorthings", "addData", data.value);
                                     Radio.trigger("sensorthings", "notify", {});
                                 },

@@ -15,12 +15,13 @@ define(function (require) {
         "notify": this.mkNotification
       }, this);
 
-      var loc = "ws://10.80.5.9:8766";
+      var loc = "ws://10.80.5.9:8767";
       var socket = new WebSocket(loc);
       socket.onopen = function () {
         console.log('websocket says hi!');
       }
       socket.onmessage = function (evt) {
+        console.log(evt.data);
         Radio.trigger("sensorthings", "newObservation", event.data);
       }
       socket.onerror = function (error) {
@@ -35,13 +36,22 @@ define(function (require) {
     },
     handleObservation: function (observation) {
       var obs = JSON.parse(observation);
+
+      // TODO: hardcode demo datastream id
+      if (obs['@iot.id'] === '') {
+        this.mkNotification();
+      }
+
       var things = this.get('things');
       var dataStreamId = obs['@iot.id'];
+      console.log(dataStreamId);
+      console.log(things);
       var idx = _.findIndex(things, function (t) {
         return t.Datastreams[0]['@iot.id'] === dataStreamId;
       });
       if (idx >= 0) {
         var changedThing = things[idx];
+        console.log(changedThing);
         var oldObservations = changedThing.Datastreams[0].Observations;
         oldObservations.push(obs);
         var newThings = things.slice(idx, 1);
@@ -49,8 +59,6 @@ define(function (require) {
         console.log(things);
         console.log(newThings);
         this.set('things', newThings);
-      } else {
-        console.log(obs);
       }
     },
     toggleFavorite: function (thing) {
