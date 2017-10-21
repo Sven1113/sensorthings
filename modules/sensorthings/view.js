@@ -40,7 +40,7 @@ define(function (require) {
         var x = document.createElement("div");
         var os = thing.Datastreams[0].Observations;
         x.setAttribute("class", "marker " + os[os.length - 1].result);
-        x.setAttribute("id", "m" + thing["@iot.id"]);
+        x.setAttribute("id", "m" + thing.Datastreams[0]["@iot.id"]);
           x.onclick = function () {
               var modal = document.getElementById("modal");
               if(modal.getAttribute("style") === "") {

@@ -36,9 +36,9 @@ define(function (require) {
     handleObservation: function (observation) {
       var obs = JSON.parse(observation);
       var things = this.get('things');
-      var thingId = obs['@iot.id'];
+      var dataStreamId = obs['@iot.id'];
       var idx = _.findIndex(things, function (t) {
-        return t['@iot.id'] === thingId;
+        return t.Datastreams[0]['@iot.id'] === dataStreamId;
       });
       if (idx >= 0) {
         var changedThing = things[idx];
