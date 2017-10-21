@@ -20,7 +20,7 @@ define(function (require) {
     },
     render: function () {
       this.$el.html(this.template({ model: this.model }));
-      $(".lgv-container").append(this.$el);
+      // $(".lgv-container").append(this.$el);
 
     },
     reRender: function () {

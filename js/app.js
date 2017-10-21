@@ -48,7 +48,6 @@ define("app",
                                 success: function (data) {
                                     console.log(data);
                                     Radio.trigger("sensorthings", "addData", data.value);
-                                    Radio.trigger("sensorthings", "notify", {});
                                 },
                                 xhrFields: {
                                     withCredentials: false

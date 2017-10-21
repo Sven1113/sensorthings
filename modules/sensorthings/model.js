@@ -36,14 +36,17 @@ define(function (require) {
     handleObservation: function (observation) {
       var obs = JSON.parse(observation);
 
-      // // TODO: hardcode demo datastream id
-      // if (obs['@iot.id'] === '') {
-      //   this.mkNotification();
-      // }
       //
       // var things = this.get('things');
       var k = Object.keys(obs);
       var dataStreamId = k[0];
+      console.log(dataStreamId);
+      if (("" + dataStreamId) === "141" && obs[dataStreamId].result === "available") {
+          this.mkNotification();
+          console.log("notification!");
+          Radio.trigger("sensorthings", "notify", {});
+      }
+
       console.log($("#m" + dataStreamId).attr("class", "marker " + obs[dataStreamId].result));
       console.log(obs[dataStreamId].result);
 
