@@ -48,6 +48,7 @@ define("app",
             });
         });
 
+        // http://51.5.242.162/itsLGVhackathon/v1.0/Things?$expand=Locations&$filter=geo.distance(Locations/location, geography'POINT (9.9879648 53.5481662)') lt 0.018
 
         Radio.trigger("Util", "hideLoader");
     });
